@@ -1,2 +1,2 @@
-# docisa.github.io
+# docisa
 pour la documentation de ISA
