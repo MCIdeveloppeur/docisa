@@ -5,41 +5,245 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Documentation ISA33</title>
   <style>
+    :root {
+      --bg: #eef2f7;
+      --bg-strong: #e5ebf3;
+      --panel: rgba(255, 255, 255, 0.9);
+      --primary: #1f2d3d;
+      --primary-soft: #3c4f66;
+      --accent: #b8c3cf;
+      --text: #132238;
+      --muted: #5e6f82;
+      --border: rgba(19, 34, 56, 0.08);
+      --shadow: 0 16px 36px rgba(19, 34, 56, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background: #f5f7fa;
-      color: #222;
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--bg) 0%, #f6f8fb 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 48px 20px;
     }
+
+    .container {
+      width: min(1100px, 100%);
+    }
+
+    .header {
+      background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(244,247,250,0.98));
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 34px 36px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .header::after {
+      content: "";
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(27, 45, 61, 0.04);
+    }
+
+    .logo-wrap {
+      position: relative;
+      z-index: 1;
+      width: 160px;
+      min-width: 160px;
+      height: 160px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(19,34,56,0.04), rgba(255,255,255,0.9));
+      border: 1px solid rgba(19, 34, 56, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 12px 24px rgba(19,34,56,0.06);
+    }
+
+    .logo-wrap img {
+      width: 118px;
+      height: 118px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 6px 12px rgba(19, 34, 56, 0.12));
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(19, 34, 56, 0.08);
+      background: rgba(19, 34, 56, 0.04);
+      color: var(--primary-soft);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
     h1 {
-      margin-bottom: 20px;
+      margin: 18px 0 8px;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+      font-weight: 700;
+      color: var(--primary);
     }
-    ul {
-      list-style: none;
-      padding: 0;
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+      max-width: 600px;
     }
-    li {
-      margin: 12px 0;
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
     }
-    a {
+
+    .card {
+      position: relative;
+      display: block;
+      padding: 24px 22px 20px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(246,248,251,0.92));
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 24px rgba(19, 34, 56, 0.05);
       text-decoration: none;
-      color: #0b57d0;
+      color: var(--text);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), #8ea9c8);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 34px rgba(19, 34, 56, 0.12);
+      border-color: rgba(19, 34, 56, 0.12);
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: rgba(19, 34, 56, 0.05);
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 18px;
+      border: 1px solid rgba(19, 34, 56, 0.08);
+    }
+
+    .file-name {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .meta {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.8rem;
       font-weight: 600;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <h1>Documentation ISA33</h1>
-  <ul>
-    <li><a href="1MANUEL_MENU_FICHIER_PARAMETRES_ISA33.html">1MANUEL_MENU_FICHIER_PARAMETRES_ISA33.html</a></li>
-    <li><a href="2MANUEL_TABLES_DE_REFERENCES_ISA33.html">2MANUEL_TABLES_DE_REFERENCES_ISA33.html</a></li>
-    <li><a href="3MANUEL_MENU_PRODUCTION_ISA33.html">3MANUEL_MENU_PRODUCTION_ISA33.html</a></li>
-    <li><a href="4MANUEL_MENU_MEDICAL_ISA33.html">4MANUEL_MENU_MEDICAL_ISA33.html</a></li>
-    <li><a href="5MANUEL_MENU_PRESTATIONS_ISA33.html">5MANUEL_MENU_PRESTATIONS_ISA33.html</a></li>
-    <li><a href="7MANUEL_MENU_KIT_STATISTIQUE_ISA33.html">7MANUEL_MENU_KIT_STATISTIQUE_ISA33.html</a></li>
-  </ul>
+  <div class="container">
+    <header class="header">
+      <div class="logo-wrap">
+        <img src="C:/Users/NKOUASSI/Documents/Documents/IMAGE ISA/LogoISA.png" alt="Logo ISA" />
+      </div>
+      <div class="header-content">
+        <span class="eyebrow">Documentation</span>
+        <h1>ISA33</h1>
+        <p class="subtitle">Plateforme documentaire interne – accès rapide aux manuels, références et outils de gestion.</p>
+      </div>
+    </header>
+
+    <section class="grid">
+      <a class="card" href="1MANUEL_MENU_FICHIER_PARAMETRES_ISA33.html">
+        <div class="label">01</div>
+        <p class="file-name">1MANUEL_MENU_FICHIER_PARAMETRES_ISA33.html</p>
+        <div class="meta"><span class="dot"></span> Ouvrir le fichier</div>
+      </a>
+
+      <a class="card" href="2MANUEL_TABLES_DE_REFERENCES_ISA33.html">
+        <div class="label">02</div>
+        <p class="file-name">2MANUEL_TABLES_DE_REFERENCES_ISA33.html</p>
+        <div class="meta"><span class="dot"></span> Ouvrir le fichier</div>
+      </a>
+
+      <a class="card" href="3MANUEL_MENU_PRODUCTION_ISA33.html">
+        <div class="label">03</div>
+        <p class="file-name">3MANUEL_MENU_PRODUCTION_ISA33.html</p>
+        <div class="meta"><span class="dot"></span> Ouvrir le fichier</div>
+      </a>
+
+      <a class="card" href="4MANUEL_MENU_MEDICAL_ISA33.html">
+        <div class="label">04</div>
+        <p class="file-name">4MANUEL_MENU_MEDICAL_ISA33.html</p>
+        <div class="meta"><span class="dot"></span> Ouvrir le fichier</div>
+      </a>
+
+      <a class="card" href="5MANUEL_MENU_PRESTATIONS_ISA33.html">
+        <div class="label">05</div>
+        <p class="file-name">5MANUEL_MENU_PRESTATIONS_ISA33.html</p>
+        <div class="meta"><span class="dot"></span> Ouvrir le fichier</div>
+      </a>
+
+      <a class="card" href="7MANUEL_MENU_KIT_STATISTIQUE_ISA33.html">
+        <div class="label">07</div>
+        <p class="file-name">7MANUEL_MENU_KIT_STATISTIQUE_ISA33.html</p>
+        <div class="meta"><span class="dot"></span> Ouvrir le fichier</div>
+      </a>
+    </section>
+  </div>
 </body>
 </html>
